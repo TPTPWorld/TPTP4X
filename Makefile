@@ -13,7 +13,7 @@ all: tptp4X
 install: all
 	mv tptp4X $(TPTP_HOME)/ServiceTools/tptp4X
 
-tptp4X: $(OBJS) tptp4X.o AddEquality.o FOFify.o NumberNames.o Randomize.o
+tptp4X: $(OBJS) tptp4X.o AddEquality.o FOFify.o NumberNames.o Randomize.o Makefile
 	$(CC) $(CFLAGS) -O6 -o $@ $(OBJS) tptp4X.o AddEquality.o FOFify.o NumberNames.o Randomize.o $(LFLAGS)
 
 .c.o:
