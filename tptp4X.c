@@ -309,7 +309,7 @@ ANNOTATEDFORMULA AnnotatedFormula,FILE * OutputHandle,char * IncludeFilter,
 SyntaxType * LastNodeType) {
 
     String NewIncludeFile;
-    String NewIncludeFilter;
+    SuperString NewIncludeFilter;
     SuperString FormulaName;
     SyntaxType ThisNodeType;
 
