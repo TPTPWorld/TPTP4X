@@ -22,7 +22,6 @@ FetchContent_Declare(
 )
 
 FetchContent_MakeAvailable(jjparser)
-FetchContent_GetProperties(jjparser)
 
 find_package(CURL REQUIRED)
 
