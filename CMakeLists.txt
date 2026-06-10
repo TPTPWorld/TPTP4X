@@ -4,24 +4,42 @@ project(TPTP4X
   LANGUAGES C
 )
 
-include(FetchContent)
-
 if(DEFINED ENV{TPTP_HOME})
   set(TPTP_HOME "$ENV{TPTP_HOME}" CACHE PATH "TPTP installation root")
 else()
-  set(TPTP_HOME "/home/tptp" CACHE PATH "TPTP installation root")
+  set(TPTP_HOME "/home/tptp"      CACHE PATH "TPTP installation root")
 endif()
 
-set(JJPARSER_GIT_TAG "49e46700b2e81b50516f35bbba7595f83cb27814" CACHE STRING "Git tag, branch, or commit to use for JJParser")
+################################################################################
+# download JJParser at CMake configuration time
+# but ignore JJParser's own CMake project
+
+include(FetchContent)
+
+set(JJPARSER_GIT_TAG "master" CACHE STRING "Git tag, branch, or commit to use for JJParser")
 
 FetchContent_Declare(
   jjparser
   GIT_REPOSITORY https://github.com/TPTPWorld/JJParser.git
   GIT_TAG        "${JJPARSER_GIT_TAG}"
   SOURCE_SUBDIR  cmake-do-not-add
+  #[[
+  `SOURCE_SUBDIR` points to a non-existent directory.
+  This is to avoid building any targets defined in JJParser's own `CMakeLists.txt`.
+  This is allowed by the official documentation:
+  https://cmake.org/cmake/help/latest/module/FetchContent.html#command:fetchcontent_makeavailable
+    > If the top directory of the populated content contains a CMakeLists.txt file,
+    > call add_subdirectory() to add it to the main build.
+    > It is not an error for there to be no CMakeLists.txt file,
+    > which allows the command to be used for dependencies
+    > that make downloaded content available at a known location,
+    > but which do not need or support being added directly to the build.
+  #]]
 )
 
 FetchContent_MakeAvailable(jjparser)
+
+################################################################################
 
 find_package(CURL REQUIRED)
 
