@@ -49,33 +49,34 @@ FetchContent_MakeAvailable(jjparser)
 find_package(CURL REQUIRED)
 
 set(JJPARSER_SOURCES
-  "${jjparser_SOURCE_DIR}/ListStatistics.c"
-  "${jjparser_SOURCE_DIR}/List.c"
-  "${jjparser_SOURCE_DIR}/Examine.c"
-  "${jjparser_SOURCE_DIR}/Modify.c"
-  "${jjparser_SOURCE_DIR}/Tree.c"
-  "${jjparser_SOURCE_DIR}/TreeStatistics.c"
-  "${jjparser_SOURCE_DIR}/ParseTPTP.c"
-  "${jjparser_SOURCE_DIR}/ParseTSTP.c"
-  "${jjparser_SOURCE_DIR}/PrintTSTP.c"
-  "${jjparser_SOURCE_DIR}/Parsing.c"
-  "${jjparser_SOURCE_DIR}/Signature.c"
-  "${jjparser_SOURCE_DIR}/Tokenizer.c"
-  "${jjparser_SOURCE_DIR}/Utilities.c"
-  "${jjparser_SOURCE_DIR}/Compare.c"
-  "${jjparser_SOURCE_DIR}/Interpret.c"
-  "${jjparser_SOURCE_DIR}/PrintXML.c"
-  "${jjparser_SOURCE_DIR}/PrintSMT2.c"
-  "${jjparser_SOURCE_DIR}/PrintDFG.c"
-  "${jjparser_SOURCE_DIR}/PrintOtter.c"
-  "${jjparser_SOURCE_DIR}/PrintKIF.c"
-  "${jjparser_SOURCE_DIR}/PrintSUMO.c"
-  "${jjparser_SOURCE_DIR}/PrintLP.c"
-  "${jjparser_SOURCE_DIR}/PrintDK.c"
-  "${jjparser_SOURCE_DIR}/FileUtilities.c"
-  "${jjparser_SOURCE_DIR}/SystemOnTPTP.c"
-  "${jjparser_SOURCE_DIR}/Statistics.c"
+  ListStatistics.c
+  List.c
+  Examine.c
+  Modify.c
+  Tree.c
+  TreeStatistics.c
+  ParseTPTP.c
+  ParseTSTP.c
+  PrintTSTP.c
+  Parsing.c
+  Signature.c
+  Tokenizer.c
+  Utilities.c
+  Compare.c
+  Interpret.c
+  PrintXML.c
+  PrintSMT2.c
+  PrintDFG.c
+  PrintOtter.c
+  PrintKIF.c
+  PrintSUMO.c
+  PrintLP.c
+  PrintDK.c
+  FileUtilities.c
+  SystemOnTPTP.c
+  Statistics.c
 )
+list(TRANSFORM JJPARSER_SOURCES PREPEND "${jjparser_SOURCE_DIR}/")
 
 add_library(jjparser_for_tptp4X STATIC ${JJPARSER_SOURCES})
 target_include_directories(jjparser_for_tptp4X PUBLIC "${jjparser_SOURCE_DIR}")
