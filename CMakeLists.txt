@@ -4,6 +4,8 @@ project(TPTP4X
   LANGUAGES C
 )
 
+# set(CMAKE_EXPORT_COMPILE_COMMANDS ON)    # provide clues to IDE IntelliSense
+
 if(DEFINED ENV{TPTP_HOME})
   set(TPTP_HOME "$ENV{TPTP_HOME}" CACHE PATH "TPTP installation root")
 else()
