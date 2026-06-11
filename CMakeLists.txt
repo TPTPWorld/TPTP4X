@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.18)
 
+set(CMAKE_C_COMPILER gcc CACHE FILEPATH "C compiler")
+
 project(TPTP4X
   LANGUAGES C
 )
