@@ -15,8 +15,8 @@ else()
 endif()
 
 ################################################################################
-# download JJParser at CMake configuration time
-# but ignore JJParser's own CMake project
+# download jjparser at CMake configuration time
+# but ignore jjparser's own CMake project
 
 include(FetchContent)
 
@@ -44,7 +44,7 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(jjparser)
 
 ################################################################################
-# configuration of JJParser (linked to curl and math library)
+# configuration of jjparser for tptp4X (linked to curl and math library)
 
 find_package(CURL REQUIRED)
 
@@ -83,6 +83,7 @@ target_compile_definitions(jjparser_for_tptp4X PRIVATE TPTP_HOME="${TPTP_HOME}")
 target_link_libraries(jjparser_for_tptp4X PUBLIC CURL::libcurl m)
 
 ################################################################################
+# configuration of tptp4X
 
 add_executable(tptp4X
   tptp4X.c
@@ -96,6 +97,7 @@ target_compile_definitions(tptp4X PRIVATE TPTP_HOME="${TPTP_HOME}")
 target_link_libraries(tptp4X PRIVATE jjparser_for_tptp4X)
 
 ################################################################################
+# gcc warning flags
 
 set(TPTP4X_CFLAGS_WARNINGS
   -Wall
@@ -106,5 +108,6 @@ target_compile_options(jjparser_for_tptp4X PRIVATE ${TPTP4X_CFLAGS_WARNINGS})
 target_compile_options(tptp4X PRIVATE ${TPTP4X_CFLAGS_WARNINGS})
 
 ################################################################################
+# installation of the executable binary
 
 install(TARGETS tptp4X RUNTIME DESTINATION "${TPTP_HOME}/ServiceTools")
