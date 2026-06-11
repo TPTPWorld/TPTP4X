@@ -77,10 +77,10 @@ set(JJPARSER_SOURCES
   "${jjparser_SOURCE_DIR}/Statistics.c"
 )
 
-add_library(jjparser_tptp4x STATIC ${JJPARSER_SOURCES})
-target_include_directories(jjparser_tptp4x PUBLIC "${jjparser_SOURCE_DIR}")
-target_compile_definitions(jjparser_tptp4x PRIVATE TPTP_HOME="${TPTP_HOME}")
-target_link_libraries(jjparser_tptp4x PUBLIC CURL::libcurl m)
+add_library(jjparser_for_tptp4X STATIC ${JJPARSER_SOURCES})
+target_include_directories(jjparser_for_tptp4X PUBLIC "${jjparser_SOURCE_DIR}")
+target_compile_definitions(jjparser_for_tptp4X PRIVATE TPTP_HOME="${TPTP_HOME}")
+target_link_libraries(jjparser_for_tptp4X PUBLIC CURL::libcurl m)
 
 ################################################################################
 
@@ -93,7 +93,7 @@ add_executable(tptp4X
 )
 
 target_compile_definitions(tptp4X PRIVATE TPTP_HOME="${TPTP_HOME}")
-target_link_libraries(tptp4X PRIVATE jjparser_tptp4x)
+target_link_libraries(tptp4X PRIVATE jjparser_for_tptp4X)
 
 ################################################################################
 
@@ -102,7 +102,7 @@ set(TPTP4X_CFLAGS_WARNINGS
   -Wno-format-overflow
 )
 
-target_compile_options(jjparser_tptp4x PRIVATE ${TPTP4X_CFLAGS_WARNINGS})
+target_compile_options(jjparser_for_tptp4X PRIVATE ${TPTP4X_CFLAGS_WARNINGS})
 target_compile_options(tptp4X PRIVATE ${TPTP4X_CFLAGS_WARNINGS})
 
 ################################################################################
