@@ -97,14 +97,14 @@ target_link_libraries(tptp4X PRIVATE jjparser_tptp4x)
 
 ################################################################################
 
-if(CMAKE_C_COMPILER_ID MATCHES "GNU|Clang")
-  target_compile_options(jjparser_tptp4x PRIVATE -Wall)
-  target_compile_options(tptp4X PRIVATE -Wall)
-endif()
+set(TPTP4X_CFLAGS_WARNINGS
+  -Wall
+  -Wno-format-overflow
+)
 
-if(CMAKE_C_COMPILER_ID STREQUAL "GNU")
-  target_compile_options(jjparser_tptp4x PRIVATE -Wno-format-overflow)
-  target_compile_options(tptp4X PRIVATE -Wno-format-overflow)
-endif()
+target_compile_options(jjparser_tptp4x PRIVATE ${TPTP4X_CFLAGS_WARNINGS})
+target_compile_options(tptp4X PRIVATE ${TPTP4X_CFLAGS_WARNINGS})
+
+################################################################################
 
 install(TARGETS tptp4X RUNTIME DESTINATION "${TPTP_HOME}/ServiceTools")
