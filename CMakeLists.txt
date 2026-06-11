@@ -42,6 +42,7 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(jjparser)
 
 ################################################################################
+# configuration of JJParser (linked to curl and math library)
 
 find_package(CURL REQUIRED)
 
@@ -77,7 +78,9 @@ set(JJPARSER_SOURCES
 add_library(jjparser_tptp4x STATIC ${JJPARSER_SOURCES})
 target_include_directories(jjparser_tptp4x PUBLIC "${jjparser_SOURCE_DIR}")
 target_compile_definitions(jjparser_tptp4x PRIVATE TPTP_HOME="${TPTP_HOME}")
-target_link_libraries(jjparser_tptp4x PUBLIC CURL::libcurl)
+target_link_libraries(jjparser_tptp4x PUBLIC CURL::libcurl m)
+
+################################################################################
 
 add_executable(tptp4X
   tptp4X.c
@@ -88,7 +91,9 @@ add_executable(tptp4X
 )
 
 target_compile_definitions(tptp4X PRIVATE TPTP_HOME="${TPTP_HOME}")
-target_link_libraries(tptp4X PRIVATE jjparser_tptp4x m)
+target_link_libraries(tptp4X PRIVATE jjparser_tptp4x)
+
+################################################################################
 
 if(CMAKE_C_COMPILER_ID MATCHES "GNU|Clang")
   target_compile_options(jjparser_tptp4x PRIVATE -Wall)
