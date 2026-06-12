@@ -322,7 +322,7 @@ SyntaxType * LastNodeType) {
  *LastNodeType == tptp_fof || *LastNodeType == tptp_cnf ||
 (*LastNodeType == tptp_tpi && ThisNodeType != tptp_tpi)) &&
 ThisNodeType != blank_line) {
-        printf("\n");
+        fprintf(OutputHandle,"\n");
     }
 
 //----Expand includes if necessary
@@ -341,7 +341,9 @@ ThisNodeType != blank_line) {
         PrintAnnotatedTSTPNode(OutputHandle,AnnotatedFormula,Options.Format,Options.Pretty);
     }
     *LastNodeType = ThisNodeType;
-    fflush(stdout);
+    if (OutputHandle == stdout) {
+        fflush(OutputHandle);
+    }
 }
 //-------------------------------------------------------------------------------------------------
 unsigned long long GetTimeInMillis() {
