@@ -341,9 +341,7 @@ ThisNodeType != blank_line) {
         PrintAnnotatedTSTPNode(OutputHandle,AnnotatedFormula,Options.Format,Options.Pretty);
     }
     *LastNodeType = ThisNodeType;
-    if (OutputHandle == stdout) {
-        fflush(OutputHandle);
-    }
+    fflush(OutputHandle);
 }
 //-------------------------------------------------------------------------------------------------
 unsigned long long GetTimeInMillis() {
