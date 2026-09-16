@@ -109,9 +109,8 @@ void NumberNames(OptionsType Options,LISTNODE Head,char * Format) {
     }
 }
 //-------------------------------------------------------------------------------------------------
-void CheckOneDuplicateName(ANNOTATEDFORMULA AnnotatedFormula,
-int FixDuplicateNames,char ** NamesBuffer,int * NamesBufferSize,
-char * NumberNamesFormat,int * NumberNamesIndex) {
+void CheckOneDuplicateName(ANNOTATEDFORMULA AnnotatedFormula,int FixDuplicateNames,
+char ** NamesBuffer,int * NamesBufferSize,char * NumberNamesFormat,int * NumberNamesIndex) {
 
     char * Name;
 
@@ -121,15 +120,13 @@ char * NumberNamesFormat,int * NumberNamesIndex) {
                 AddNameIndex(AnnotatedFormula,*NumberNamesIndex,NumberNamesFormat);
                 (*NumberNamesIndex)++;
             } else {
-                printf("ERROR: Duplicate annotated formula name \"%s\"\n",
-Name);
+                printf("ERROR: Duplicate annotated formula name \"%s\"\n",Name);
                 Free((void **)NamesBuffer);
                 exit(EXIT_FAILURE);
             }
         }
 //----Record the name (possibly changed by now)
-        ExtendString(NamesBuffer,GetName(AnnotatedFormula,NULL),
-NamesBufferSize);
+        ExtendString(NamesBuffer,GetName(AnnotatedFormula,NULL),NamesBufferSize);
         ExtendString(NamesBuffer,"\n",NamesBufferSize);
     }
 }
@@ -146,8 +143,8 @@ char * NumberNamesFormat,int * NumberNamesIndex) {
     NamesBufferSize = sizeof(String);
 
     while (Head != NULL) {
-        CheckOneDuplicateName(Head->AnnotatedFormula,FixDuplicateNames,
-&NamesBuffer,&NamesBufferSize,NumberNamesFormat,NumberNamesIndex);
+        CheckOneDuplicateName(Head->AnnotatedFormula,FixDuplicateNames,&NamesBuffer,
+&NamesBufferSize,NumberNamesFormat,NumberNamesIndex);
         Head = Head->Next;
     }
     Free((void **)&NamesBuffer);

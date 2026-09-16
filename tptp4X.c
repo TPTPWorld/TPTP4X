@@ -41,6 +41,7 @@ int ProcessCommandLine(int argc,char * argv[],OptionsType * Options) {
     Options->Format = tptp;
     Options->Pretty = 1;
     Options->AllowFreeVariables = 0;
+    Options->UniqueVars = 0;
     Options->AllowDuplicateNames = 0;
     Options->ExpandIncludes = 0;
     Options->KeepNonLogicals = 1;
@@ -80,6 +81,10 @@ Options->Format != oldtptp) {
                     Options->ExpandIncludes = 1;
 //NEW version of shorten
                     SetPrintShortSymbols(1);
+                }
+//----Check if variable names need to be uniqueified
+                if (strstr(optarg,"uniquevars") != NULL) {
+                    Options->UniqueVars = 1;
                 }
 //----If fofifying, then must tolerate free variables
                 if (strstr(optarg,"fofify") != NULL) {
@@ -160,6 +165,7 @@ Options->Format != oldtptp) {
                 printf("    shortennamesN - shorten formula names to N characters\n");
                 printf("    numbernamesN  - add N digit extension to formula names\n");
                 printf("    uniquenamesN  - add N digit extension to duplicate formula names\n");
+                printf("    uniquevars    - ensure all formulae variable names are unique\n");
                 printf("    randomize     - randomize formulae and their order\n");
                 printf("    negate_conjectures - negate all conjectures\n");
                 printf("    single_conjectures - burst out multiple conjectures\n");
@@ -401,6 +407,10 @@ LogicalAnnotatedFormula(AnnotatedFormula)) {
 strstr(Options.Transformations,"uniquenames") != NULL,&NamesBuffer,&NamesBufferSize,
 NumberNamesFormat,&NumberNamesIndex);
             }
+//----Uniqueify variable names
+            if (LogicalAnnotatedFormula(AnnotatedFormula) && Options.UniqueVars) {
+                UniqueifyVariableNames(AnnotatedFormula);
+            }
 //----FOFify done before counting and output
             if (strstr(Options.Transformations,"fofify") != NULL) {
                 FOFifyAnnotatedFormula(Options,AnnotatedFormula);
@@ -557,8 +567,7 @@ char * IncludingFileName,int RemoveHeader,FILE * OutputHandle) {
     int NumberNamesIndex;
     String NumberNamesFormat;
 
-    if ((InputStream = OpenInputREADFILE(Options,FileName,
-IncludingFileName)) != NULL) {
+    if ((InputStream = OpenInputREADFILE(Options,FileName,IncludingFileName)) != NULL) {
         NextToken(InputStream);
 //----New signature for each file
         Signature = NewSignature();
@@ -574,8 +583,7 @@ strstr(Options.Transformations,"uniquenames") != NULL) {
             MaximalNameLength = -1;
         }
 //----Check if formulae can be processed one-by-one (useful for huge files)
-        if ((Options.Format == tptp || Options.Format == tptp_short ||
-Options.Format == oldtptp) &&
+        if ((Options.Format == tptp || Options.Format == tptp_short || Options.Format == oldtptp) &&
 //----noint and aritize modify the signature, so must read it all
 strstr(Options.Transformations,"noint") == NULL &&
 strstr(Options.Transformations,"donum") == NULL &&
@@ -594,13 +602,11 @@ strstr(Options.Transformations,"single_conjectures") == NULL &&
   Options.ExpandIncludes) &&
 //----Must expand includes for equality to get full signature
 strstr(Options.Transformations,"add_equality") == NULL) {
-            ProcessFormulaeOneByOne(Options,InputStream,Signature,
-IncludeFilter,RemoveHeader,NumberNamesIndex,MaximalNameLength,
-NumberNamesFormat,OutputHandle);
+            ProcessFormulaeOneByOne(Options,InputStream,Signature,IncludeFilter,RemoveHeader,
+NumberNamesIndex,MaximalNameLength,NumberNamesFormat,OutputHandle);
         } else {
-            ProcessFormulaeAllTogether(Options,InputStream,Signature,
-IncludeFilter,RemoveHeader,NumberNamesIndex,MaximalNameLength,
-NumberNamesFormat,OutputHandle);
+            ProcessFormulaeAllTogether(Options,InputStream,Signature,IncludeFilter,RemoveHeader,
+NumberNamesIndex,MaximalNameLength, NumberNamesFormat,OutputHandle);
         }
         CloseReadFile(InputStream);
 //----Clean and delete the signature (should be empty here)

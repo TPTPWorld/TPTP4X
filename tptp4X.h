@@ -15,6 +15,7 @@ typedef struct {
     PrintFormatType Format;
     int KeepNonLogicals;
     int AllowFreeVariables;
+    int UniqueVars;
     int AllowDuplicateNames;
     int Pretty;
     int ExpandIncludes;
